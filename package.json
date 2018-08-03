@@ -1,0 +1,22 @@
+{
+    "name": "gitbook-plugin-parse-from-url",
+    "version": "1.0.0",
+    "description": "parses data from a url and saves it to a file",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jacob Mulford - Bandwidth INC",
+    "license": "MIT",
+    "engines": {
+        "gitbook": "*"
+    },
+    "gitbook": {},
+    "dependencies": {
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jmulford-bandwidth/parse-from-url.git"
+    },
+    "homepage": "https://github.com/jmulford-bandwidth/parse-from-url"
+}
