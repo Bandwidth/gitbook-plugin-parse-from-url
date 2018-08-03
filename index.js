@@ -6,8 +6,9 @@ var hooks = {};
 
 function parse_data(data) {
     var display_projects = {};
-    for (var repo in data) {
-        if (repo["archived"] == "false") {
+    for (var i in data) { //data is a list
+        var repo = data[i];
+        if (repo["archived"] == false) {
             var language = repo["language"];
             if (language == "C#") {
                 language = "CSharp";
@@ -22,17 +23,20 @@ function parse_data(data) {
     }
 
     var raw_markdown = "";
-    for (var language in display_projects) {
+    for (var language in display_projects) { //display_projects is a dict
         raw_markdown += "### [](#" + language + ")" + language;
         raw_markdown += "\n\n* * *\n\n";
-        for (var repo in display_projects[language]) {
-           var name = repo[0];
+        for (var j = 0; j < display_projects[language].length; j++) { //make this do something like i in range(len(x))
+            var repo = display_projects[language][j];
+            var name = repo[0];
             var url = repo[1];
             var desc = repo[2];
+            if (desc === null) {
+                desc = "No description provided";
+            }
             raw_markdown += "### [](#" + name + ")[" + name + "](" + url + ")";
             raw_markdown += "\n\n" + desc + "\n\n";
         }
-        raw_markdown += "HI";
     }
 
     return raw_markdown;
@@ -44,8 +48,7 @@ const download = (url, dest) => {
     url: url,
     method: 'get',
   }).then((result) => {
-    //data = parse_data(result.data);
-    data = result.data;
+    data = parse_data(JSON.parse(result.data));
     var bookPath = '_book/'+dest;
     fs.writeFileSync(dest, data);
     fs.ensureFileSync(bookPath);
@@ -69,4 +72,4 @@ module.exports = {
     }
 };
 
-//console.log(parse_data("  "));
+download("https://api.github.com/orgs/BandwidthExamples/repos", "test.txt");
