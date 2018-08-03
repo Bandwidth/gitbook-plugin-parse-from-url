@@ -1,6 +1,4 @@
 var axios = require('axios');
-var fs = require('fs-extra');
-var path = require('path');
 
 var hooks = {};
 
@@ -42,18 +40,16 @@ function parse_data(data) {
     return raw_markdown;
 }
 
-const download = (url, dest) => {
+
+const modify_page = (url, page) => {
   return axios.request({
     responseType: 'arraybuffer',
     url: url,
     method: 'get',
   }).then((result) => {
     data = parse_data(JSON.parse(result.data));
-    var bookPath = '_book/'+dest;
-    fs.writeFileSync(dest, data);
-    fs.ensureFileSync(bookPath);
-    fs.copySync(dest, bookPath);
-    return dest;
+    page.content = data;
+    return page;
   })
   .catch(e => {
     console.log(e)
@@ -61,15 +57,18 @@ const download = (url, dest) => {
   });
 }
 
+
 module.exports = {
   hooks: {
-    "init": function() {
+    "page:before": function(page) {
         var urls = this.options.pluginsConfig && this.options.pluginsConfig.parseUrls && this.options.pluginsConfig.parseUrls.urls;
-        for (i = 0; i < urls.length; i++) {
-          let fileName = download(urls[i].url, urls[i].dest);
+        for (var i = 0; i < urls.length; i++) {
+            if (page.path == urls[i].dest) {
+                page = modify_page(urls[i].url, page);
+                return page;
+            }
         }
-      }
+        return page;
     }
+  }
 };
-
-download("https://api.github.com/orgs/BandwidthExamples/repos", "test.txt");

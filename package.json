@@ -13,8 +13,7 @@
     },
     "gitbook": {},
     "dependencies": {
-        "axios": "^0.18.0",
-        "fs-extra": "^5.0.0"
+        "axios": "^0.18.0"
     },
     "repository": {
         "type": "git",
