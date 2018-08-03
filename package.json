@@ -13,10 +13,13 @@
     },
     "gitbook": {},
     "dependencies": {
+    "dependencies": {
+        "axios": "^0.18.0",
+        "fs-extra": "^5.0.0"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/jmulford-bandwidth/parse-from-url.git"
+        "url": "https://github.com/jmulford-bandwidth/gitbook-plugin-parse-from-url.git"
     },
-    "homepage": "https://github.com/jmulford-bandwidth/parse-from-url"
+    "homepage": "https://github.com/jmulford-bandwidth/gitbook-plugin-parse-from-url"
 }
