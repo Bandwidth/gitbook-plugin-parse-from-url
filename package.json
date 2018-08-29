@@ -1,6 +1,6 @@
 {
     "name": "gitbook-plugin-parse-from-url",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "parses data from a url and saves it to a file",
     "main": "index.js",
     "scripts": {
@@ -13,7 +13,8 @@
     },
     "gitbook": {},
     "dependencies": {
-        "axios": "^0.18.0"
+        "axios": "^0.18.0",
+        "fs": "0.0.1-security"
     },
     "repository": {
         "type": "git",

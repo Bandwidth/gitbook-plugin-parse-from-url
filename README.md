@@ -18,7 +18,8 @@ The `url` from the object will be save to the `dest` specified.
   "urls": [
     {
       "url": "https://api.github.com/orgs/BandwidthExamples/repos",
-      "dest": "howto/deployableDemos.md"
+      "dest": "howto/deployableDemos.md",
+      "mapping": "github-names.json"
     }
   ]
 }
