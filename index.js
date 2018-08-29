@@ -68,7 +68,15 @@ module.exports = {
         var urls = this.options.pluginsConfig && this.options.pluginsConfig.parseUrls && this.options.pluginsConfig.parseUrls.urls;
         for (var i = 0; i < urls.length; i++) {
             if (page.path == urls[i].dest) {
-                page = modify_page(urls[i].url, JSON.parse(fs.readFileSync(urls[i].mapping)), page);
+                var auth_extension;
+                if (process.env.GITHUB_TOKEN == null) {
+                    auth_extension = "";
+                }
+                else {
+                    auth_extension = "/?access_token=" + process.env.GITHUB_TOKEN;
+                }
+                console.log(urls[i].url + auth_extension);
+                page = modify_page(urls[i].url + auth_extension, JSON.parse(fs.readFileSync(urls[i].mapping)), page);
                 return page;
             }
         }
