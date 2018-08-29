@@ -73,7 +73,7 @@ module.exports = {
                     auth_extension = "";
                 }
                 else {
-                    auth_extension = "/?access_token=" + process.env.GITHUB_TOKEN;
+                    auth_extension = "&access_token=" + process.env.GITHUB_TOKEN;
                 }
                 console.log(urls[i].url + auth_extension);
                 page = modify_page(urls[i].url + auth_extension, JSON.parse(fs.readFileSync(urls[i].mapping)), page);
