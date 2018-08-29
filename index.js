@@ -1,8 +1,9 @@
 var axios = require('axios');
+var fs = require('fs');
 
 var hooks = {};
 
-function parse_data(data) {
+function parse_repo_data_from_github_api(data, mapping) {
     var display_projects = {};
     for (var i in data) { //data is a list
         var repo = data[i];
@@ -27,6 +28,9 @@ function parse_data(data) {
         for (var j = 0; j < display_projects[language].length; j++) { //make this do something like i in range(len(x))
             var repo = display_projects[language][j];
             var name = repo[0];
+            if (name in mapping) {
+                name = mapping[name];
+            }
             var url = repo[1];
             var desc = repo[2];
             if (desc === null) {
@@ -41,13 +45,13 @@ function parse_data(data) {
 }
 
 
-const modify_page = (url, page) => {
+const modify_page = (url, mapping, page) => {
   return axios.request({
     responseType: 'arraybuffer',
     url: url,
     method: 'get',
   }).then((result) => {
-    data = parse_data(JSON.parse(result.data));
+    data = parse_repo_data_from_github_api(JSON.parse(result.data), mapping);
     page.content = data;
     return page;
   })
@@ -64,7 +68,7 @@ module.exports = {
         var urls = this.options.pluginsConfig && this.options.pluginsConfig.parseUrls && this.options.pluginsConfig.parseUrls.urls;
         for (var i = 0; i < urls.length; i++) {
             if (page.path == urls[i].dest) {
-                page = modify_page(urls[i].url, page);
+                page = modify_page(urls[i].url, JSON.parse(fs.readFileSync(urls[i].mapping)), page);
                 return page;
             }
         }
