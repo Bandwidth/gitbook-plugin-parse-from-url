@@ -21,7 +21,7 @@ function parse_repo_data_from_github_api(data, mapping) {
         }
     }
 
-    var raw_markdown = "";
+    var raw_markdown = "## Bandwidth Code Examples\n";
     for (var language in display_projects) { //display_projects is a dict
         raw_markdown += "### [](#" + language + ")" + language;
         raw_markdown += "\n\n* * *\n\n";
