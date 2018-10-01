@@ -1,6 +1,6 @@
 {
     "name": "gitbook-plugin-parse-from-url",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "parses data from a url and saves it to a file",
     "main": "index.js",
     "scripts": {
