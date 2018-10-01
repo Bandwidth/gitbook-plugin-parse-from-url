@@ -3,6 +3,28 @@ var fs = require('fs');
 
 var hooks = {};
 
+function get_languages_ordered_by_priority(languages) {
+    var priority_languages = new Set([
+        'Java',
+        'PHP',
+        'CSharp',
+        'JavaScript',
+        'Python',
+    ]);
+    var ordered_languages = [];
+    var i;
+    for (i = 0; i < languages.length; i++) {
+        language = languages[i];
+        if (priority_languages.has(language)) {
+            ordered_languages.unshift(language);
+        }
+        else {
+            ordered_languages.push(language);
+        }
+    }
+    return ordered_languages;
+}
+
 function parse_repo_data_from_github_api(data, mapping) {
     var display_projects = {};
     for (var i in data) { //data is a list
@@ -21,11 +43,21 @@ function parse_repo_data_from_github_api(data, mapping) {
         }
     }
 
+    var languages = get_languages_ordered_by_priority(Object.keys(display_projects));
+    var i;
     var raw_markdown = "## Bandwidth Code Examples\n";
-    for (var language in display_projects) { //display_projects is a dict
-        raw_markdown += "### [](#" + language + ")" + language;
+    
+    for (i = 0; i < languages.length; i++) {
+        var language = languages[i];
+        raw_markdown += "[" + language + "](#" + language + "). ";
+    }
+
+    for (i = 0; i < languages.length; i++) { 
+        var language = languages[i];
+        raw_markdown += '<a id="' + language + '"></a>';
+        raw_markdown += "<h3>" + language + "</h3>"; 
         raw_markdown += "\n\n* * *\n\n";
-        for (var j = 0; j < display_projects[language].length; j++) { //make this do something like i in range(len(x))
+        for (var j = 0; j < display_projects[language].length; j++) {
             var repo = display_projects[language][j];
             var name = repo[0];
             if (name in mapping) {
